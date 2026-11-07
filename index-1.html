@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading & Digital Marketing Course Hub</title>
+    <!-- Telegram Web App Script -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg-color: #F0ede5;
+            --primary: #004643;
+            --primary-hover: #003533;
+            --card-bg: #FFFFFF;
+            --text-main: #121E1E;
+            --text-muted: #5A6666;
+            --border-color: #D9D5CC;
+            --accent: #004643;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 16px;
+            max-width: 480px;
+            margin: 0 auto;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        header p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .search-container {
+            margin-bottom: 16px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+        }
+
+        .categories {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .category-btn.active {
+            background-color: var(--primary);
+            color: var(--bg-color);
+            border-color: var(--primary);
+        }
+
+        .course-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .course-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: transform 0.1s ease;
+        }
+
+        .course-card:active {
+            transform: scale(0.98);
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .course-category-tag {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--primary);
+            background-color: rgba(0, 70, 67, 0.08);
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .course-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .course-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .course-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .course-instructor {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .join-btn {
+            background-color: var(--primary);
+            color: #FFFFFF;
+            border: none;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .join-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Course Hub</h1>
+        <p>Access premium digital marketing & trading channels</p>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search courses or instructors...">
+    </div>
+
+    <div class="categories">
+        <button class="category-btn active" data-category="all">All Courses</button>
+        <button class="category-btn" data-category="forex">Forex Trading</button>
+        <button class="category-btn" data-category="marketing">Digital Marketing</button>
+    </div>
+
+    <div class="course-list" id="courseList">
+        <!-- Course 1 -->
+        <div class="course-card" data-category="marketing" data-search="yonas moh digital marketing masterclass ecommerce social media">
+            <div class="course-header">
+                <span class="course-category-tag">Digital Marketing</span>
+            </div>
+            <div class="course-title">Yonas Moh Digital Marketing Course</div>
+            <div class="course-desc">Comprehensive strategies covering brand building, social media growth, and conversion funnels for digital businesses.</div>
+            <div class="course-footer">
+                <span class="course-instructor">Instructor: Yonas Moh</span>
+                <!-- Clean button with data-link attribute instead of an anchor wrapper -->
+                <button class="join-btn" data-link="https://t.me/c/4396285938/1">Access Channel</button>
+            </div>
+        </div>
+
+        <!-- Course 2 -->
+    </div>
+
+    <div class="empty-state" id="emptyState">
+        No courses found matching your search.
+    </div>
+
+    <script>
+        // Initialize Telegram Web App
+        let tg = window.Telegram.WebApp;
+        if (tg) {
+            tg.expand();
+            try {
+                tg.setHeaderColor('#F0ede5');
+                tg.setBackgroundColor('#F0ede5');
+            } catch (e) {
+                // Fallback if platform version doesn't support header color setting
+            }
+        }
+
+        // Safe Telegram Link Handler
+        function openChannel(url) {
+            if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.openTelegramLink === 'function') {
+                window.Telegram.WebApp.openTelegramLink(url);
+            } else {
+                window.open(url, '_blank');
+            }
+        }
+
+        // Attach event listeners to all join buttons securely
+        document.querySelectorAll('.join-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetUrl = button.getAttribute('data-link');
+                console.log("Opening channel:", targetUrl);
+                if (targetUrl) {
+                    openChannel(targetUrl);
+                }
+            });
+        });
+
+        // Filtering and Search Logic
+        const searchInput = document.getElementById('searchInput');
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const courseCards = document.querySelectorAll('.course-card');
+        const emptyState = document.getElementById('emptyState');
+
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        function filterCourses() {
+            let visibleCount = 0;
+
+            courseCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                const searchText = card.getAttribute('data-search');
+                
+                const matchesCategory = currentCategory === 'all' || category === currentCategory;
+                const matchesSearch = searchText.includes(searchQuery.toLowerCase().trim());
+
+                if (matchesCategory && matchesSearch) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (visibleCount === 0) {
+                emptyState.style.display = 'block';
+            } else {
+                emptyState.style.display = 'none';
+            }
+        }
+
+        // Search event listener
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            filterCourses();
+        });
+
+        // Category filter buttons listener
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.getAttribute('data-category');
+                filterCourses();
+            });
+        });
+    </script>
+</body>
+</html>
